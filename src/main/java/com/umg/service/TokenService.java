@@ -6,6 +6,7 @@ import com.umg.type.TokenType;
 import com.umg.util.Utilities;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,12 +23,13 @@ public class TokenService {
 
             if (Utilities.GROUP_SYMBOL.contains(charStringValue)) {
                 tokens.add(new Token(charStringValue, TokenType.GROUP_SYMBOL));
-                line = parseToBlank(line, i);
+                line = line.replace(charStringValue, "");
+                continue;
             }
 
             if (Utilities.SEPARATOR_SYMBOL.contains(charStringValue)) {
                 tokens.add(new Token(charStringValue, TokenType.SEPARATOR_SYMBOL));
-                line = parseToBlank(line, i);
+                line = line.replace(charStringValue, "");
             }
         }
 
@@ -38,37 +40,50 @@ public class TokenService {
     public void getResult(String line, Result result) {
         decryptSymbolToken(line, result);
         var tokens = result.getTokens();
-        var resultSplitLine = cleanLine(line);
+        var resultSplitLine = cleanLine(result.getLine());
 
-        for (int i = 0; i < resultSplitLine.size(); i++) {
-            var value = resultSplitLine.get(i);
-
+        line = result.getLine();
+        for (var value : resultSplitLine) {
             if (Utilities.RESERVED_SYMBOL.contains(value)) {
                 tokens.add(new Token(value, TokenType.RESERVED_SYMBOL));
-                line = parseToBlank(line, i);
+                line = line.replace(value, "");
+                continue;
             }
 
             if (Utilities.RELATIONAL_SYMBOL.contains(value)) {
                 tokens.add(new Token(value, TokenType.RELATIONAL_SYMBOL));
-                line = parseToBlank(line, i);
+                line = line.replace(value, "");
+                continue;
             }
 
             if (Utilities.INCREMENT_SYMBOL.contains(value)) {
                 tokens.add(new Token(value, TokenType.INCREMENT_SYMBOL));
-                line = parseToBlank(line, i);
+                line = line.replace(value, "");
+                continue;
             }
 
             if (Utilities.ASSIGNATION_SYMBOL.contains(value)) {
                 tokens.add(new Token(value, TokenType.ASSIGNATION_SYMBOL));
-                line = parseToBlank(line, i);
+                line = line.replace(value, "");
+                continue;
+            }
+
+            if (Utilities.isNumber(value)) {
+                tokens.add(new Token(value, TokenType.NUMBER_SYMBOL));
+                line = line.replace(value, "");
+                continue;
+            }
+
+            if (Utilities.isIdentification(value)) {
+                tokens.add(new Token(value, TokenType.IDENTIFICATION_SYMBOL));
+                line = line.replace(value, "");
             }
         }
 
-        System.out.println("line length " + line.length());
         result.setTokens(tokens);
         result.setLine(line);
         if (line.trim().length() > 0) {
-            decryptSymbolToken(line, result);
+            getResult(line, result);
         }
     }
 
@@ -82,8 +97,5 @@ public class TokenService {
         return Arrays.stream(splitResults).toList();
     }
 
-    private String parseToBlank(String original, Integer index) {
-        return original.substring(0, index) + original.substring(index + 1);
-    }
 
 }
