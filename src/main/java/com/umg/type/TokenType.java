@@ -1,0 +1,10 @@
+package com.umg.type;
+
+public enum TokenType {
+    RESERVED_SYMBOL,
+    GROUP_SYMBOL,
+    RELATIONAL_SYMBOL,
+    SEPARATOR_SYMBOL,
+    INCREMENT_SYMBOL,
+    ASSIGNATION_SYMBOL
+}
