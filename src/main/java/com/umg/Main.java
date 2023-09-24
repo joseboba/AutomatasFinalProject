@@ -1,16 +1,24 @@
 package com.umg;
 
-import com.umg.dto.Result;
-import com.umg.service.TokenService;
+import com.umg.service.FileService;
+
+import java.io.FileNotFoundException;
 
 public class Main {
-    public static void main(String[] args) {
-        var service = new TokenService();
-        var result = new Result();
-        service.getResult("for (valini1= 0; valini1 <= 10; ++valini1)", result);
+    public static void main(String[] args) throws FileNotFoundException {
 
-        result.getTokens().forEach(t -> {
-            System.out.println("value [" + t.getValue() + "] token type [" + t.getType() + "]");
-        });
+        var fileService = new FileService();
+        var results = fileService.processFile();
+
+        for (var result : results) {
+            System.out.println("--------------------");
+            System.out.println("Linea original: " + result.getOriginalLine());
+            result.getTokens().forEach(t -> {
+                System.out.println("value [" + t.getValue() + "] token type [" + t.getType() + "]");
+            });
+            System.out.println("--------------------\n");
+        }
+
+
     }
 }

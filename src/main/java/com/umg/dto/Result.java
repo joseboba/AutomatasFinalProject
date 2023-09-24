@@ -13,10 +13,12 @@ import java.util.List;
 public class Result {
 
     private String line;
+    private String originalLine;
     private List<Token> tokens;
 
-    public Result() {
+    public Result(String originalLine) {
         this.tokens = new ArrayList<>();
+        this.originalLine = originalLine;
     }
 
 }
