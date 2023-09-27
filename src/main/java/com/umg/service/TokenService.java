@@ -6,96 +6,116 @@ import com.umg.type.TokenType;
 import com.umg.util.Utilities;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
 public class TokenService {
 
-    private void decryptSymbolToken(String line, Result result) {
+    public void decryptSymbolToken(String line, Result result) {
         var tokens = result.getTokens();
-        for (int i = 0; i < line.length(); i++) {
-            var charValue = line.charAt(i);
+        var lineSplit = line.split("");
+        var concatChar = "";
+        var nextConcat = "";
 
-            if (Character.isWhitespace(charValue)) continue;
-            var charStringValue = Character.toString(charValue);
+        for (int i = 0; i < lineSplit.length; i++) {
+            var lineFor = lineSplit[i].trim();
+            var nextIndex = i + 1 < lineSplit.length ? i + 1 : i;
 
-            if (Utilities.GROUP_SYMBOL.contains(charStringValue)) {
-                tokens.add(new Token(charStringValue, TokenType.GROUP_SYMBOL));
-                line = line.replace(charStringValue, "");
+            var nextCharValue = lineSplit[nextIndex].trim();
+            var validateEmpty = lineFor.isEmpty();
+            var validateNextval = isOneSymbol(nextCharValue) && !validateEmpty;
+            concatChar += cleanLine(lineFor);
+            nextConcat += concatChar + nextCharValue;
+
+
+            if (Utilities.GROUP_SYMBOL.contains(concatChar)) {
+                tokens.add(new Token(concatChar, TokenType.GROUP_SYMBOL));
+                concatChar = "";
+                nextConcat = "";
                 continue;
             }
 
-            if (Utilities.SEPARATOR_SYMBOL.contains(charStringValue)) {
-                tokens.add(new Token(charStringValue, TokenType.SEPARATOR_SYMBOL));
-                line = line.replace(charStringValue, "");
+            if (Utilities.SEPARATOR_SYMBOL.contains(concatChar)) {
+                tokens.add(new Token(concatChar, TokenType.SEPARATOR_SYMBOL));
+                concatChar = "";
+                nextConcat = "";
+                continue;
             }
+
+            if (Utilities.RELATIONAL_SYMBOL.contains(nextConcat)) {
+                tokens.add(new Token(nextConcat, TokenType.RELATIONAL_SYMBOL));
+                concatChar = "";
+                nextConcat = "";
+                i++;
+                continue;
+            }
+
+            if (Utilities.INCREMENT_SYMBOL.contains(nextConcat)) {
+                tokens.add(new Token(nextConcat, TokenType.INCREMENT_SYMBOL));
+                nextConcat = "";
+                concatChar = "";
+                i++;
+                continue;
+            }
+
+            if (validateEmpty || validateNextval || nextIndex == i) {
+                if (validateNextval) {
+                    concatChar = concatChar.replace(nextCharValue, "");
+                }
+
+                validate(concatChar, tokens);
+                concatChar = "";
+                nextConcat = "";
+            }
+
         }
 
         result.setTokens(tokens);
         result.setLine(line);
     }
 
-    public void getResult(String line, Result result) {
-        decryptSymbolToken(line, result);
-        var tokens = result.getTokens();
-        var resultSplitLine = cleanLine(result.getLine());
 
-        line = result.getLine();
-        for (var value : resultSplitLine) {
-            if (Utilities.RESERVED_SYMBOL.contains(value)) {
-                tokens.add(new Token(value, TokenType.RESERVED_SYMBOL));
-                line = line.replace(value, "");
-                continue;
-            }
+    public Boolean isOneSymbol(String nextCharValue) {
+        return Utilities.GROUP_SYMBOL.contains(nextCharValue) ||
+                Utilities.SEPARATOR_SYMBOL.contains(nextCharValue) ||
+                Utilities.ASSIGNATION_SYMBOL.contains(nextCharValue);
 
-            if (Utilities.RELATIONAL_SYMBOL.contains(value)) {
-                tokens.add(new Token(value, TokenType.RELATIONAL_SYMBOL));
-                line = line.replace(value, "");
-                continue;
-            }
+    }
 
-            if (Utilities.INCREMENT_SYMBOL.contains(value)) {
-                tokens.add(new Token(value, TokenType.INCREMENT_SYMBOL));
-                line = line.replace(value, "");
-                continue;
-            }
-
-            if (Utilities.ASSIGNATION_SYMBOL.contains(value)) {
-                tokens.add(new Token(value, TokenType.ASSIGNATION_SYMBOL));
-                line = line.replace(value, "");
-                continue;
-            }
-
-            if (Utilities.isNumber(value)) {
-                tokens.add(new Token(value, TokenType.NUMBER_SYMBOL));
-                line = line.replace(value, "");
-                continue;
-            }
-
-            if (Utilities.isIdentification(value)) {
-                tokens.add(new Token(value, TokenType.IDENTIFICATION_SYMBOL));
-                line = line.replace(value, "");
-            }
+    public void validate(String concatChar, List<Token> tokens) {
+        if (Utilities.RESERVED_SYMBOL.contains(concatChar)) {
+            tokens.add(new Token(concatChar, TokenType.RESERVED_SYMBOL));
+            return;
         }
 
-        result.setTokens(tokens);
-        result.setLine(line);
-        if (line.trim().length() > 0) {
-            getResult(line, result);
+        if (Utilities.RELATIONAL_SYMBOL.contains(concatChar)) {
+            tokens.add(new Token(concatChar, TokenType.RELATIONAL_SYMBOL));
+            return;
+        }
+
+        if (Utilities.INCREMENT_SYMBOL.contains(concatChar)) {
+            tokens.add(new Token(concatChar, TokenType.INCREMENT_SYMBOL));
+            return;
+        }
+
+        if (Utilities.ASSIGNATION_SYMBOL.contains(concatChar)) {
+            tokens.add(new Token(concatChar, TokenType.ASSIGNATION_SYMBOL));
+            return;
+        }
+
+        if (Utilities.isNumber(concatChar)) {
+            tokens.add(new Token(concatChar, TokenType.NUMBER_SYMBOL));
+            return;
+        }
+
+        if (Utilities.isIdentification(concatChar)) {
+            tokens.add(new Token(concatChar, TokenType.IDENTIFICATION_SYMBOL));
         }
     }
 
-    private List<String> cleanLine(String line) {
-        var splitResults = line.split(" ");
-        for (int i = 0; i < splitResults.length; i++) {
-            var value = splitResults[i].trim();
-            splitResults[i] = value.replaceAll("\\s", "");
-        }
-
-        return Arrays.stream(splitResults).toList();
+    private String cleanLine(String value) {
+        value = value.trim();
+        return value.replaceAll("\\s", "");
     }
-
 
 }

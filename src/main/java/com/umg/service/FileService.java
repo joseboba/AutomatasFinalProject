@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ public class FileService {
 
     private final TokenService service = new TokenService();
 
-    public List<Result> processFile() throws FileNotFoundException {
+    public List<Result> processFile() throws IOException {
         var results = new ArrayList<Result>();
         var chooser = new JFileChooser();
         chooser.setFileFilter(new FileNameExtensionFilter("Text", "txt", "csv"));
@@ -28,13 +30,13 @@ public class FileService {
     }
 
 
-    private void analyzeFile(File file, ArrayList<Result> results) throws FileNotFoundException {
-        var scanner = new Scanner(file);
+    private void analyzeFile(File file, ArrayList<Result> results) throws IOException {
+        var scanner = new Scanner(file, StandardCharsets.UTF_8);
 
         while (scanner.hasNextLine()) {
             var line = scanner.nextLine();
             var result = new Result(line);
-            service.getResult(line, result);
+            service.decryptSymbolToken(line.trim(), result);
             results.add(result);
         }
 

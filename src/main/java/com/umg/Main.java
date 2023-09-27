@@ -2,10 +2,10 @@ package com.umg;
 
 import com.umg.service.FileService;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
 
         var fileService = new FileService();
         var results = fileService.processFile();
@@ -18,7 +18,5 @@ public class Main {
             });
             System.out.println("--------------------\n");
         }
-
-
     }
 }
