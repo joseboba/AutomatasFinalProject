@@ -19,7 +19,7 @@ public class Main {
             if(!result.getTokens().isEmpty()){
                     System.out.println("\nToken:");
                     result.getTokens().forEach(t -> {
-                    System.out.println(t.getValue() + " \t" +  Utilities.getWordClassification(t.getType().toString()));
+                    System.out.println(t.getValue() + " \t" +  Utilities.getWordClassification(t.getType()));
                 });
                 System.out.println("--------------------\n");
             }

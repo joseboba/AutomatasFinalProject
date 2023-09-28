@@ -75,14 +75,14 @@ public class TokenService {
     }
 
 
-    public Boolean isOneSymbol(String nextCharValue) {
+    private Boolean isOneSymbol(String nextCharValue) {
         return Utilities.GROUP_SYMBOL.contains(nextCharValue) ||
                 Utilities.SEPARATOR_SYMBOL.contains(nextCharValue) ||
                 Utilities.ASSIGNATION_SYMBOL.contains(nextCharValue);
 
     }
 
-    public void validate(String concatChar, List<Token> tokens) {
+    private void validate(String concatChar, List<Token> tokens) {
         if (Utilities.RESERVED_SYMBOL.contains(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.RESERVED_SYMBOL));
             return;
