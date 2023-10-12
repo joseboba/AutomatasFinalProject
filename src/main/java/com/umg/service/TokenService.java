@@ -110,7 +110,13 @@ public class TokenService {
 
         if (Utilities.isIdentification(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.IDENTIFICATION_SYMBOL));
+            return;
         }
+        
+        if(!concatChar.equals(" ") && !concatChar.isEmpty()){
+            tokens.add(new Token(concatChar,TokenType.INVALID_SYMBOL));
+        }
+        
     }
 
     private String cleanLine(String value) {
