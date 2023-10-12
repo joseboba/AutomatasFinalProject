@@ -35,7 +35,7 @@ public class Utilities {
         WORD_CLASSIFICATION.put(TokenType.ASSIGNATION_SYMBOL, "Operador de asignación");
         WORD_CLASSIFICATION.put(TokenType.NUMBER_SYMBOL, "Cadena numérica");
         WORD_CLASSIFICATION.put(TokenType.IDENTIFICATION_SYMBOL, "Identificador");
-        WORD_CLASSIFICATION.put(TokenType.INVALID_SYMBOL, "Palabra con símbolos inválidos");
+        WORD_CLASSIFICATION.put(TokenType.INVALID_SYMBOL, "Cadena inválida");
     }
 
     public static String getWordClassification(TokenType key) {
