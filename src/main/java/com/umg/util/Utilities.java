@@ -33,8 +33,9 @@ public class Utilities {
         WORD_CLASSIFICATION.put(TokenType.SEPARATOR_SYMBOL, "Separador de sentencia");
         WORD_CLASSIFICATION.put(TokenType.INCREMENT_SYMBOL, "Operador de incremento");
         WORD_CLASSIFICATION.put(TokenType.ASSIGNATION_SYMBOL, "Operador de asignación");
-        WORD_CLASSIFICATION.put(TokenType.NUMBER_SYMBOL, "Operador de asignación");
+        WORD_CLASSIFICATION.put(TokenType.NUMBER_SYMBOL, "Cadena numérica");
         WORD_CLASSIFICATION.put(TokenType.IDENTIFICATION_SYMBOL, "Identificador");
+        WORD_CLASSIFICATION.put(TokenType.INVALID_SYMBOL, "Símbolo inválido");
     }
 
     public static String getWordClassification(TokenType key) {

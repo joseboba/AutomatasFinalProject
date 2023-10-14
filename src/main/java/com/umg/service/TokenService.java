@@ -24,10 +24,24 @@ public class TokenService {
 
             var nextCharValue = lineSplit[nextIndex].trim();
             var validateEmpty = lineFor.isEmpty();
-            var validateNextval = isOneSymbol(nextCharValue) && !validateEmpty;
+            var validateNextVal = isOneSymbol(nextCharValue) && !validateEmpty;
             concatChar += cleanLine(lineFor);
             nextConcat += concatChar + nextCharValue;
 
+
+            if (Utilities.RELATIONAL_SYMBOL.contains(nextConcat)) {
+                tokens.add(new Token(nextConcat, TokenType.RELATIONAL_SYMBOL));
+                concatChar = "";
+                i++;
+                continue;
+            }
+
+            if (Utilities.INCREMENT_SYMBOL.contains(nextConcat)) {
+                tokens.add(new Token(nextConcat, TokenType.INCREMENT_SYMBOL));
+                concatChar = "";
+                i++;
+                continue;
+            }
 
             if (Utilities.GROUP_SYMBOL.contains(concatChar)) {
                 tokens.add(new Token(concatChar, TokenType.GROUP_SYMBOL));
@@ -59,30 +73,23 @@ public class TokenService {
                 continue;
             }
 
-            if (Utilities.RELATIONAL_SYMBOL.contains(nextConcat)) {
-                tokens.add(new Token(nextConcat, TokenType.RELATIONAL_SYMBOL));
-                concatChar = "";
-                i++;
-                continue;
-            }
-
-            if (Utilities.INCREMENT_SYMBOL.contains(nextConcat)) {
-                tokens.add(new Token(nextConcat, TokenType.INCREMENT_SYMBOL));
-                concatChar = "";
-                i++;
-                continue;
-            }
-
-            if (validateEmpty || validateNextval || nextIndex == i) {
-                if (validateNextval) {
+            if (validateEmpty || validateNextVal || nextIndex == i) {
+                if (validateNextVal) {
                     concatChar = concatChar.replace(nextCharValue, "");
                 }
 
                 validate(concatChar, tokens);
                 concatChar = "";
+                continue;
+            }
+
+            if (!canBeValid(concatChar)) {
+                tokens.add(new Token(concatChar, TokenType.INVALID_SYMBOL));
+                concatChar = "";
             }
 
         }
+
 
         result.setTokens(tokens);
         result.setLine(line);
@@ -125,6 +132,17 @@ public class TokenService {
         if (Utilities.isIdentification(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.IDENTIFICATION_SYMBOL));
         }
+    }
+
+    private boolean canBeValid(String value) {
+        return (Utilities.RESERVED_SYMBOL.contains(value))
+                || (Utilities.GROUP_SYMBOL.contains(value))
+                || (Utilities.RELATIONAL_SYMBOL.contains(value))
+                || (Utilities.SEPARATOR_SYMBOL.contains(value))
+                || (Utilities.INCREMENT_SYMBOL.contains(value))
+                || (Utilities.ASSIGNATION_SYMBOL.contains(value))
+                || (Utilities.isNumber(value))
+                || (Utilities.isIdentification(value));
     }
 
     private String cleanLine(String value) {
