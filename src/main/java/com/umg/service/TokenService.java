@@ -18,6 +18,7 @@ public class TokenService {
         var nextConcat = "";
 
         for (int i = 0; i < lineSplit.length; i++) {
+            nextConcat = "";
             var lineFor = lineSplit[i].trim();
             var nextIndex = i + 1 < lineSplit.length ? i + 1 : i;
 
@@ -31,28 +32,42 @@ public class TokenService {
             if (Utilities.GROUP_SYMBOL.contains(concatChar)) {
                 tokens.add(new Token(concatChar, TokenType.GROUP_SYMBOL));
                 concatChar = "";
-                nextConcat = "";
                 continue;
             }
 
             if (Utilities.SEPARATOR_SYMBOL.contains(concatChar)) {
                 tokens.add(new Token(concatChar, TokenType.SEPARATOR_SYMBOL));
                 concatChar = "";
-                nextConcat = "";
+                continue;
+            }
+
+            if (Utilities.RELATIONAL_SYMBOL.contains(concatChar)) {
+                tokens.add(new Token(concatChar, TokenType.RELATIONAL_SYMBOL));
+                concatChar = "";
+                continue;
+            }
+
+            if (Utilities.INCREMENT_SYMBOL.contains(concatChar)) {
+                tokens.add(new Token(concatChar, TokenType.INCREMENT_SYMBOL));
+                concatChar = "";
+                continue;
+            }
+
+            if (Utilities.ASSIGNATION_SYMBOL.contains(concatChar)) {
+                tokens.add(new Token(concatChar, TokenType.INCREMENT_SYMBOL));
+                concatChar = "";
                 continue;
             }
 
             if (Utilities.RELATIONAL_SYMBOL.contains(nextConcat)) {
                 tokens.add(new Token(nextConcat, TokenType.RELATIONAL_SYMBOL));
                 concatChar = "";
-                nextConcat = "";
                 i++;
                 continue;
             }
 
             if (Utilities.INCREMENT_SYMBOL.contains(nextConcat)) {
                 tokens.add(new Token(nextConcat, TokenType.INCREMENT_SYMBOL));
-                nextConcat = "";
                 concatChar = "";
                 i++;
                 continue;
@@ -65,7 +80,6 @@ public class TokenService {
 
                 validate(concatChar, tokens);
                 concatChar = "";
-                nextConcat = "";
             }
 
         }

@@ -12,18 +12,17 @@ public class Main {
         var fileService = new FileService();
         var results = fileService.processFile();
 
+
         for (var result : results) {
             System.out.println("--------------------");
             System.out.println("Sentencia: \n" + result.getOriginalLine());
-            
             if(!result.getTokens().isEmpty()){
                     System.out.println("\nToken:");
                     result.getTokens().forEach(t -> {
                     System.out.println(t.getValue() + " \t" +  Utilities.getWordClassification(t.getType()));
                 });
-                System.out.println("--------------------\n");
             }
-            
+            System.out.println("--------------------\n");
         }
 
 
