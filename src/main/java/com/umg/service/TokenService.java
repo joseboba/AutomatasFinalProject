@@ -21,13 +21,19 @@ public class TokenService {
             nextConcat = "";
             var lineFor = lineSplit[i].trim();
             var nextIndex = i + 1 < lineSplit.length ? i + 1 : i;
-
             var nextCharValue = lineSplit[nextIndex].trim();
             var validateEmpty = lineFor.isEmpty();
             var validateNextVal = isOneSymbol(nextCharValue) && !validateEmpty;
             concatChar += cleanLine(lineFor);
             nextConcat += concatChar + nextCharValue;
+            var isDoubleNextIsDoubleSymbol = nextIndex + 1 < lineSplit.length && doubleNextIsDoubleSymbol(nextIndex, lineSplit);
 
+            if (!canBeValid(concatChar) && !canBeValid(nextConcat) && !validateEmpty) {
+                tokens.add(new Token(nextConcat, TokenType.INVALID_SYMBOL));
+                concatChar = "";
+                i++;
+                continue;
+            }
 
             if (Utilities.RELATIONAL_SYMBOL.contains(nextConcat)) {
                 tokens.add(new Token(nextConcat, TokenType.RELATIONAL_SYMBOL));
@@ -68,9 +74,15 @@ public class TokenService {
             }
 
             if (Utilities.ASSIGNATION_SYMBOL.contains(concatChar)) {
-                tokens.add(new Token(concatChar, TokenType.INCREMENT_SYMBOL));
+                tokens.add(new Token(concatChar, TokenType.ASSIGNATION_SYMBOL));
                 concatChar = "";
                 continue;
+            }
+
+            if (isDoubleNextIsDoubleSymbol) {
+                concatChar = concatChar.replace(nextCharValue, "");
+                validate(concatChar, tokens);
+                concatChar = "";
             }
 
             if (validateEmpty || validateNextVal || nextIndex == i) {
@@ -79,12 +91,6 @@ public class TokenService {
                 }
 
                 validate(concatChar, tokens);
-                concatChar = "";
-                continue;
-            }
-
-            if (!canBeValid(concatChar)) {
-                tokens.add(new Token(concatChar, TokenType.INVALID_SYMBOL));
                 concatChar = "";
             }
 
@@ -101,6 +107,12 @@ public class TokenService {
                 Utilities.SEPARATOR_SYMBOL.contains(nextCharValue) ||
                 Utilities.ASSIGNATION_SYMBOL.contains(nextCharValue);
 
+    }
+
+    private Boolean doubleNextIsDoubleSymbol(Integer nextI, String[] lineSplit) {
+        var secondNextValue = lineSplit[nextI] + lineSplit[nextI + 1];
+        return Utilities.RELATIONAL_SYMBOL.contains(secondNextValue)
+                || Utilities.INCREMENT_SYMBOL.contains(secondNextValue);
     }
 
     private void validate(String concatChar, List<Token> tokens) {

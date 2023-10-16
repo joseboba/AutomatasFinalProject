@@ -27,7 +27,7 @@ public class Main {
         Utilities.enterMapValues();
         var fileService = new FileService();
         var results = fileService.processFile();
-        ArrayList<String> resultadoAMostrar = new ArrayList();
+        var resultadoAMostrar = new ArrayList<String>();
 
         if(!results.isEmpty()){
            for (var result : results) {
@@ -40,7 +40,7 @@ public class Main {
                     });
                 }
                 resultadoAMostrar.add("\n ------------------------------------------- \n");
-            } 
+            }
           return resultadoAMostrar;
         }
         
