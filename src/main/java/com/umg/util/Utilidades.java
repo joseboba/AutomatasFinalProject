@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class Utilities {
+public class Utilidades {
 
     public static final Map<TokenType, String> WORD_CLASSIFICATION = new HashMap<>();
 
@@ -26,7 +26,7 @@ public class Utilities {
         return Pattern.matches("[a-z][a-z0-9]*", value);
     }
 
-    public static void enterMapValues() {
+    public static void ingresarValoresMap() {
         WORD_CLASSIFICATION.put(TokenType.RESERVED_SYMBOL, "Palabra reservada");
         WORD_CLASSIFICATION.put(TokenType.GROUP_SYMBOL, "Símbolo de agrupación");
         WORD_CLASSIFICATION.put(TokenType.RELATIONAL_SYMBOL, "Operador relacional");
@@ -38,7 +38,7 @@ public class Utilities {
         WORD_CLASSIFICATION.put(TokenType.INVALID_SYMBOL, "Símbolo inválido");
     }
 
-    public static String getWordClassification(TokenType key) {
+    public static String obtenerClasificacionDePalabra(TokenType key) {
         return WORD_CLASSIFICATION.get(key);
     }
 }

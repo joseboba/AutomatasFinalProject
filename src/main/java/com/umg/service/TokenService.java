@@ -1,9 +1,9 @@
 package com.umg.service;
 
-import com.umg.dto.Result;
+import com.umg.dto.Resultado;
 import com.umg.dto.Token;
 import com.umg.type.TokenType;
-import com.umg.util.Utilities;
+import com.umg.util.Utilidades;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TokenService {
 
-    public void decryptSymbolToken(String line, Result result) {
+    public void decryptSymbolToken(String line, Resultado result) {
         var tokens = result.getTokens();
         var lineSplit = line.split("");
         var concatChar = "";
@@ -35,45 +35,45 @@ public class TokenService {
                 continue;
             }
 
-            if (Utilities.RELATIONAL_SYMBOL.contains(nextConcat)) {
+            if (Utilidades.RELATIONAL_SYMBOL.contains(nextConcat)) {
                 tokens.add(new Token(nextConcat, TokenType.RELATIONAL_SYMBOL));
                 concatChar = "";
                 i++;
                 continue;
             }
 
-            if (Utilities.INCREMENT_SYMBOL.contains(nextConcat)) {
+            if (Utilidades.INCREMENT_SYMBOL.contains(nextConcat)) {
                 tokens.add(new Token(nextConcat, TokenType.INCREMENT_SYMBOL));
                 concatChar = "";
                 i++;
                 continue;
             }
 
-            if (Utilities.GROUP_SYMBOL.contains(concatChar)) {
+            if (Utilidades.GROUP_SYMBOL.contains(concatChar)) {
                 tokens.add(new Token(concatChar, TokenType.GROUP_SYMBOL));
                 concatChar = "";
                 continue;
             }
 
-            if (Utilities.SEPARATOR_SYMBOL.contains(concatChar)) {
+            if (Utilidades.SEPARATOR_SYMBOL.contains(concatChar)) {
                 tokens.add(new Token(concatChar, TokenType.SEPARATOR_SYMBOL));
                 concatChar = "";
                 continue;
             }
 
-            if (Utilities.RELATIONAL_SYMBOL.contains(concatChar)) {
+            if (Utilidades.RELATIONAL_SYMBOL.contains(concatChar)) {
                 tokens.add(new Token(concatChar, TokenType.RELATIONAL_SYMBOL));
                 concatChar = "";
                 continue;
             }
 
-            if (Utilities.INCREMENT_SYMBOL.contains(concatChar)) {
+            if (Utilidades.INCREMENT_SYMBOL.contains(concatChar)) {
                 tokens.add(new Token(concatChar, TokenType.INCREMENT_SYMBOL));
                 concatChar = "";
                 continue;
             }
 
-            if (Utilities.ASSIGNATION_SYMBOL.contains(concatChar)) {
+            if (Utilidades.ASSIGNATION_SYMBOL.contains(concatChar)) {
                 tokens.add(new Token(concatChar, TokenType.ASSIGNATION_SYMBOL));
                 concatChar = "";
                 continue;
@@ -98,63 +98,63 @@ public class TokenService {
 
 
         result.setTokens(tokens);
-        result.setLine(line);
+        result.setLinea(line);
     }
 
 
     private Boolean isOneSymbol(String nextCharValue) {
-        return Utilities.GROUP_SYMBOL.contains(nextCharValue) ||
-                Utilities.SEPARATOR_SYMBOL.contains(nextCharValue) ||
-                Utilities.ASSIGNATION_SYMBOL.contains(nextCharValue);
+        return Utilidades.GROUP_SYMBOL.contains(nextCharValue) ||
+                Utilidades.SEPARATOR_SYMBOL.contains(nextCharValue) ||
+                Utilidades.ASSIGNATION_SYMBOL.contains(nextCharValue);
 
     }
 
     private Boolean doubleNextIsDoubleSymbol(Integer nextI, String[] lineSplit) {
         var secondNextValue = lineSplit[nextI] + lineSplit[nextI + 1];
-        return Utilities.RELATIONAL_SYMBOL.contains(secondNextValue)
-                || Utilities.INCREMENT_SYMBOL.contains(secondNextValue);
+        return Utilidades.RELATIONAL_SYMBOL.contains(secondNextValue)
+                || Utilidades.INCREMENT_SYMBOL.contains(secondNextValue);
     }
 
     private void validate(String concatChar, List<Token> tokens) {
-        if (Utilities.RESERVED_SYMBOL.contains(concatChar)) {
+        if (Utilidades.RESERVED_SYMBOL.contains(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.RESERVED_SYMBOL));
             return;
         }
 
-        if (Utilities.RELATIONAL_SYMBOL.contains(concatChar)) {
+        if (Utilidades.RELATIONAL_SYMBOL.contains(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.RELATIONAL_SYMBOL));
             return;
         }
 
-        if (Utilities.INCREMENT_SYMBOL.contains(concatChar)) {
+        if (Utilidades.INCREMENT_SYMBOL.contains(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.INCREMENT_SYMBOL));
             return;
         }
 
-        if (Utilities.ASSIGNATION_SYMBOL.contains(concatChar)) {
+        if (Utilidades.ASSIGNATION_SYMBOL.contains(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.ASSIGNATION_SYMBOL));
             return;
         }
 
-        if (Utilities.isNumber(concatChar)) {
+        if (Utilidades.isNumber(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.NUMBER_SYMBOL));
             return;
         }
 
-        if (Utilities.isIdentification(concatChar)) {
+        if (Utilidades.isIdentification(concatChar)) {
             tokens.add(new Token(concatChar, TokenType.IDENTIFICATION_SYMBOL));
         }
     }
 
     private boolean canBeValid(String value) {
-        return (Utilities.RESERVED_SYMBOL.contains(value))
-                || (Utilities.GROUP_SYMBOL.contains(value))
-                || (Utilities.RELATIONAL_SYMBOL.contains(value))
-                || (Utilities.SEPARATOR_SYMBOL.contains(value))
-                || (Utilities.INCREMENT_SYMBOL.contains(value))
-                || (Utilities.ASSIGNATION_SYMBOL.contains(value))
-                || (Utilities.isNumber(value))
-                || (Utilities.isIdentification(value));
+        return (Utilidades.RESERVED_SYMBOL.contains(value))
+                || (Utilidades.GROUP_SYMBOL.contains(value))
+                || (Utilidades.RELATIONAL_SYMBOL.contains(value))
+                || (Utilidades.SEPARATOR_SYMBOL.contains(value))
+                || (Utilidades.INCREMENT_SYMBOL.contains(value))
+                || (Utilidades.ASSIGNATION_SYMBOL.contains(value))
+                || (Utilidades.isNumber(value))
+                || (Utilidades.isIdentification(value));
     }
 
     private String cleanLine(String value) {

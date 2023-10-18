@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Token {
 
-    private String value;
-    private TokenType type;
+    private String valor;
+    private TokenType tipo;
 
 }

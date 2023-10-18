@@ -2,9 +2,9 @@ package com.umg;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import com.umg.service.FileService;
+import com.umg.service.ServicioDeArchivo;
 import com.umg.ui.PantallaResultado;
-import com.umg.util.Utilities;
+import com.umg.util.Utilidades;
 
 public class Main {
     
@@ -24,19 +24,19 @@ public class Main {
     }
     
     public static ArrayList<String> lecturaDeArchivo() throws IOException {
-        Utilities.enterMapValues();
-        var fileService = new FileService();
-        var results = fileService.processFile();
+        Utilidades.ingresarValoresMap();
+        var servicioDeArchivo = new ServicioDeArchivo();
+        var resultados = servicioDeArchivo.procesarArchivo();
         var resultadoAMostrar = new ArrayList<String>();
 
-        if(!results.isEmpty()){
-           for (var result : results) {
+        if(!resultados.isEmpty()){
+           for (var resultado : resultados) {
                 resultadoAMostrar.add("\n ------------------------------------------- ");
-                resultadoAMostrar.add("\n Sentencia: \n\n " + result.getOriginalLine() + "\n");
-                if(!result.getTokens().isEmpty()){
+                resultadoAMostrar.add("\n Sentencia: \n\n " + resultado.getLineaOriginal() + "\n");
+                if(!resultado.getTokens().isEmpty()){
                         resultadoAMostrar.add("\n Token: \n");
-                        result.getTokens().forEach(t -> {
-                        resultadoAMostrar.add("\n " + t.getValue() + " \t" +  Utilities.getWordClassification(t.getType()));
+                        resultado.getTokens().forEach(t -> {
+                        resultadoAMostrar.add("\n " + t.getValor() + " \t" +  Utilidades.obtenerClasificacionDePalabra(t.getTipo()));
                     });
                 }
                 resultadoAMostrar.add("\n ------------------------------------------- \n");
