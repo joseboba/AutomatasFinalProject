@@ -26,7 +26,7 @@ public class ServicioDeToken {
             var validarSiguienteValor = esSimboloUnico(valorCharSiguiente) && !validarVacio;
             charDeConcatenacion += limpiarLinea(elemento);
             concatenacionSiguiente += charDeConcatenacion + valorCharSiguiente;
-            var esSimboloDecimal = indiceSiguiente + 1 < elementosDeLinea.length && esSimboloDecimal(indiceSiguiente, elementosDeLinea);
+            var esSimboloDecimal = indiceSiguiente + 1 < elementosDeLinea.length && esSimboloDoble(indiceSiguiente, elementosDeLinea);
 
             if (!puedeSerValido(charDeConcatenacion) && !puedeSerValido(concatenacionSiguiente) && !validarVacio) {
                 tokens.add(new Token(concatenacionSiguiente, TipoToken.SIMBOLO_INVALIDO));
@@ -109,7 +109,7 @@ public class ServicioDeToken {
 
     }
 
-    private Boolean esSimboloDecimal(Integer enteroSiguiente, String[] elementosDeLinea) {
+    private Boolean esSimboloDoble(Integer enteroSiguiente, String[] elementosDeLinea) {
         var segundoValorSiguiente = elementosDeLinea[enteroSiguiente] + elementosDeLinea[enteroSiguiente + 1];
         return Utilidades.SIMBOLO_RELACIONAL.contains(segundoValorSiguiente)
                 || Utilidades.SIMBOLO_INCREMENTO.contains(segundoValorSiguiente);
