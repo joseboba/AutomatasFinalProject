@@ -16,9 +16,9 @@ public class Resultado {
     private String lineaOriginal;
     private List<Token> tokens;
 
-    public Resultado(String originalLine) {
+    public Resultado(String lineaOriginal) {
         this.tokens = new ArrayList<>();
-        this.lineaOriginal = originalLine;
+        this.lineaOriginal = lineaOriginal;
     }
 
 }

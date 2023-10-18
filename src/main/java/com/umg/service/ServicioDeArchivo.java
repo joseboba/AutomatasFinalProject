@@ -13,33 +13,33 @@ import java.util.Scanner;
 
 public class ServicioDeArchivo {
 
-    private final TokenService service = new TokenService();
+    private final ServicioDeToken servicio = new ServicioDeToken();
 
     public List<Resultado> procesarArchivo() throws IOException {
-        var results = new ArrayList<Resultado>();
-        var chooser = new JFileChooser();
-        chooser.setFileFilter(new FileNameExtensionFilter("Text", "txt", "csv"));
-        int returnVal = chooser.showOpenDialog(null);
+        var resultados = new ArrayList<Resultado>();
+        var seleccionador = new JFileChooser();
+        seleccionador.setFileFilter(new FileNameExtensionFilter("Text", "txt", "csv"));
+        int valorDeRetorno = seleccionador.showOpenDialog(null);
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            analyzeFile(chooser.getSelectedFile(), results);
+        if (valorDeRetorno == JFileChooser.APPROVE_OPTION) {
+            analizarArchivo(seleccionador.getSelectedFile(), resultados);
         }
 
-        return results;
+        return resultados;
     }
 
 
-    private void analyzeFile(File file, ArrayList<Resultado> results) throws IOException {
-        var scanner = new Scanner(file, StandardCharsets.UTF_8);
+    private void analizarArchivo(File archivo, ArrayList<Resultado> resultados) throws IOException {
+        var escaner = new Scanner(archivo, StandardCharsets.UTF_8);
 
-        while (scanner.hasNextLine()) {
-            var line = scanner.nextLine();
-            var result = new Resultado(line);
-            service.decryptSymbolToken(line.trim(), result);
-            results.add(result);
+        while (escaner.hasNextLine()) {
+            var linea = escaner.nextLine();
+            var resultado = new Resultado(linea);
+            servicio.descifrarTokenDeSimbolo(linea.trim(), resultado);
+            resultados.add(resultado);
         }
 
-        scanner.close();
+        escaner.close();
     }
 
 }

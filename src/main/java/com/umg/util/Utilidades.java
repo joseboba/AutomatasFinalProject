@@ -1,6 +1,6 @@
 package com.umg.util;
 
-import com.umg.type.TokenType;
+import com.umg.type.TipoToken;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,36 +9,36 @@ import java.util.regex.Pattern;
 
 public class Utilidades {
 
-    public static final Map<TokenType, String> WORD_CLASSIFICATION = new HashMap<>();
+    public static final Map<TipoToken, String> CLASIFICACION_DE_PALABRA = new HashMap<>();
 
-    public static final List<String> RESERVED_SYMBOL = List.of("if", "then", "while", "for", "switch", "case", "when");
-    public static final List<String> GROUP_SYMBOL = List.of("(", ")");
-    public static final List<String> RELATIONAL_SYMBOL = List.of("<", "<=", ">", ">=", "==", "!=");
-    public static final List<String> SEPARATOR_SYMBOL = List.of(";");
-    public static final List<String> INCREMENT_SYMBOL = List.of("++");
-    public static final List<String> ASSIGNATION_SYMBOL = List.of("=");
+    public static final List<String> SIMBOLO_PALABRA_RESERVADA = List.of("if", "then", "while", "for", "switch", "case", "when");
+    public static final List<String> SIMBOLO_AGRUPACION = List.of("(", ")");
+    public static final List<String> SIMBOLO_RELACIONAL = List.of("<", "<=", ">", ">=", "==", "!=");
+    public static final List<String> SIMBOLO_SEPARADOR = List.of(";");
+    public static final List<String> SIMBOLO_INCREMENTO = List.of("++");
+    public static final List<String> SIMBOLO_ASIGNACION = List.of("=");
 
-    public static boolean isNumber(String value) {
-        return Pattern.matches("[0-9]+", value);
+    public static boolean esNumero(String valor) {
+        return Pattern.matches("[0-9]+", valor);
     }
 
-    public static boolean isIdentification(String value) {
-        return Pattern.matches("[a-z][a-z0-9]*", value);
+    public static boolean esIdentificador(String valor) {
+        return Pattern.matches("[a-z][a-z0-9]*", valor);
     }
 
     public static void ingresarValoresMap() {
-        WORD_CLASSIFICATION.put(TokenType.RESERVED_SYMBOL, "Palabra reservada");
-        WORD_CLASSIFICATION.put(TokenType.GROUP_SYMBOL, "Símbolo de agrupación");
-        WORD_CLASSIFICATION.put(TokenType.RELATIONAL_SYMBOL, "Operador relacional");
-        WORD_CLASSIFICATION.put(TokenType.SEPARATOR_SYMBOL, "Separador de sentencia");
-        WORD_CLASSIFICATION.put(TokenType.INCREMENT_SYMBOL, "Operador de incremento");
-        WORD_CLASSIFICATION.put(TokenType.ASSIGNATION_SYMBOL, "Operador de asignación");
-        WORD_CLASSIFICATION.put(TokenType.NUMBER_SYMBOL, "Cadena numérica");
-        WORD_CLASSIFICATION.put(TokenType.IDENTIFICATION_SYMBOL, "Identificador");
-        WORD_CLASSIFICATION.put(TokenType.INVALID_SYMBOL, "Símbolo inválido");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_PALABRA_RESERVADA, "Palabra reservada");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_AGRUPACION, "Símbolo de agrupación");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_RELACIONAL, "Operador relacional");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_SEPARADOR, "Separador de sentencia");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_INCREMENTO, "Operador de incremento");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_ASIGNACION, "Operador de asignación");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_NUMERICO, "Cadena numérica");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_IDENTIFICADOR, "Identificador");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_INVALIDO, "Símbolo inválido");
     }
 
-    public static String obtenerClasificacionDePalabra(TokenType key) {
-        return WORD_CLASSIFICATION.get(key);
+    public static String obtenerClasificacionDePalabra(TipoToken clave) {
+        return CLASIFICACION_DE_PALABRA.get(clave);
     }
 }

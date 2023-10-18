@@ -1,6 +1,6 @@
 package com.umg.dto;
 
-import com.umg.type.TokenType;
+import com.umg.type.TipoToken;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,6 @@ import lombok.Setter;
 public class Token {
 
     private String valor;
-    private TokenType tipo;
+    private TipoToken tipo;
 
 }
