@@ -20,7 +20,6 @@ public class ServicioDeArchivo {
         var seleccionador = new JFileChooser();
         seleccionador.setFileFilter(new FileNameExtensionFilter("Text", "txt", "csv"));
         int valorDeRetorno = seleccionador.showOpenDialog(null);
-
         if (valorDeRetorno == JFileChooser.APPROVE_OPTION) {
             analizarArchivo(seleccionador.getSelectedFile(), resultados);
         }
@@ -34,6 +33,7 @@ public class ServicioDeArchivo {
 
         while (escaner.hasNextLine()) {
             var linea = escaner.nextLine();
+            if (linea.isEmpty()) continue;
             var resultado = new Resultado(linea);
             servicio.descifrarTokenDeSimbolo(linea.trim(), resultado);
             resultados.add(resultado);
