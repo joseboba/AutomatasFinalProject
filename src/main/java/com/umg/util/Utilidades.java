@@ -35,7 +35,7 @@ public class Utilidades {
         CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_ASIGNACION, "Operador de asignación");
         CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_NUMERICO, "Cadena numérica");
         CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_IDENTIFICADOR, "Identificador");
-        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_INVALIDO, "Símbolo inválido");
+        CLASIFICACION_DE_PALABRA.put(TipoToken.SIMBOLO_INVALIDO, "Cadena inválido");
     }
 
     public static String obtenerClasificacionDePalabra(TipoToken clave) {
