@@ -10,15 +10,15 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Result {
+public class Resultado {
 
-    private String line;
-    private String originalLine;
+    private String linea;
+    private String lineaOriginal;
     private List<Token> tokens;
 
-    public Result(String originalLine) {
+    public Resultado(String lineaOriginal) {
         this.tokens = new ArrayList<>();
-        this.originalLine = originalLine;
+        this.lineaOriginal = lineaOriginal;
     }
 
 }
