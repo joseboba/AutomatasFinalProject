@@ -26,7 +26,7 @@ public class ServicioDeToken {
             var validarSiguienteValor = esSimboloUnico(valorCharSiguiente) && !validarVacio;
             charDeConcatenacion += limpiarLinea(elemento);
             concatenacionSiguiente += charDeConcatenacion + valorCharSiguiente;
-            var esSimboloDecimal = indiceSiguiente + 1 < elementosDeLinea.length && esSimboloDoble(indiceSiguiente, elementosDeLinea);
+            var esSimboloDoble = indiceSiguiente + 1 < elementosDeLinea.length && esSimboloDoble(indiceSiguiente, elementosDeLinea);
 
             if (!puedeSerValido(charDeConcatenacion) && !puedeSerValido(concatenacionSiguiente) && !validarVacio) {
                 tokens.add(new Token(concatenacionSiguiente, TipoToken.SIMBOLO_INVALIDO));
@@ -79,7 +79,7 @@ public class ServicioDeToken {
                 continue;
             }
 
-            if (esSimboloDecimal) {
+            if (esSimboloDoble) {
                 charDeConcatenacion = charDeConcatenacion.replace(valorCharSiguiente, "");
                 validar(charDeConcatenacion, tokens);
                 charDeConcatenacion = "";
@@ -95,7 +95,6 @@ public class ServicioDeToken {
             }
 
         }
-
 
         resultado.setTokens(tokens);
         resultado.setLinea(linea);
